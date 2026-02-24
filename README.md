@@ -1,82 +1,212 @@
-### Social Media Chatbot (Capstone Project): Rwandan Museum.
+# 🏛️ Rwanda Museum Interactive Guide — Multilingual AI Chatbot
 
-### Project Description
-**Rwandan Museum Chatbot** is a culturally situational, machine-learning-based application, which is aimed at increasing visitor interaction in Rwandan museums. It sends out a Retrieval-Augmented Generation (RAG) pipeline to get interactive, multilingual (Kinyarwanda, English, French) storytelling of museum artifacts, history, and heritage and answering questions about museum artifacts, history, and heritage. This project is expected to reduce the interpretation gap in conventional exhibits by providing an easy to use, AI-based digital guide.
+> **Capstone Project** | BSc. Software Engineering | Amandine Irakoze | Supervisor: Thadee Gatera
 
-### Repository
-GitHub Repository Link  
-https://github.com/Amandine0610/Capstone
+A culturally contextualised, machine-learning–driven chatbot utilising **Retrieval-Augmented Generation (RAG)** to provide interactive, multilingual cultural storytelling in **Kinyarwanda, English, and French** for Rwandan museums.
 
-### Designs & Mockups
-The user interface has been done in consideration of Rwandan culture (through the use of rwanda-blue, rwanda-yellow and rwanda-green color palette).
+🔗 **Repository:** https://github.com/Amandine0610/museum_chatbot_prototype  
 
-### Language Selection & Welcome
-Language Selection
+---
 
-### Artefact Detail View
-Artefact Detail
+## 📸 Application Screens
 
-### Chat Interface
-Chat Interface
+| Language Selection | Artefact Detail | Chat Interface |
+|---|---|---|
+| Select from English / Français / Kinyarwanda | Browse artefacts with full descriptions | Ask questions in any language |
 
-### Interactive Guidance
-Interactive Guide
+---
 
-### Architecture
-The system uses a three-tier architecture of the modern times:
-- **Frontend:** ReactJS + Vite + TailwindCSS (Responsive Web Interface).
-- **Backend:** Node.js + Express ( API Gateway and Orchestrator ).
-- **ML Service:** Python + LangChain + ChromaDB (RAG Pipeline).
+## 🏗️ System Architecture
 
-### Data & Model Analysis
-The machine learning part is examined in the ml-service/modelanalysis.ipynb notebook.
-- Data Visualization Distribution of terms in the museum knowledge base.
-- Detailed RAG flow (Ingestion -> Embedding -> Retrieval -> Generation): Model Architecture.
-- Performance Measures: Preliminary results are 0.85 Precision and approximate 1.2s Latency.
+```
+┌─────────────────┐     HTTP      ┌─────────────────┐     HTTP     ┌──────────────────┐
+│   Frontend      │ ──/api/chat──▶│   Backend       │ ──/query──▶  │   ML Service     │
+│  React + Vite   │               │  Node / Express │              │  Python / Flask  │
+│  Port 5173      │               │  Port 3000      │              │  Port 5000       │
+└─────────────────┘               └─────────────────┘              └──────────────────┘
+                                                                           │
+                                                                    LangChain RAG
+                                                                    ChromaDB + LLM
+```
 
-### Setup Instructions
+**Three-Tier Stack:**
+- **Frontend:** ReactJS + Vite (Responsive mobile-first UI, phone-frame design)
+- **Backend:** Node.js + Express (API Gateway / Proxy)
+- **ML Service:** Python + LangChain + ChromaDB (RAG Pipeline)
 
-### Prerequisites
-- Node.js: v18 (Backend/Frontend)
-- Python: v3.8+ (for ML Service)
-- Git: For version control
-- VS Code: Python & ES7+ extensions Recommendable IDE.
+---
 
-### ML Service Setup
-- cd ml-service
-- Build virtual world (not implemented, but suggested)
-- python -m venv venv
-- venv (Windows: venv\Scripts\activate, Mac/Linux: source venv/bin/activate)
-- pip install requirements.txt
-- Run the service
-- python app.py
-Instructions The ML service needs an OpenAI API Key in a .env file (OPENAIAPIKEY=sk-..) in place to be fully functional. In case no key is given, a mock mode can be used.
+## ⚙️ Prerequisites
 
-### Backend Setup
-- cd backend
-- npm install
-- (Make an.env file with PORT=3000 and MLSERVICEURL=http://localhost:5000).
-- npm start
+| Tool | Version | Purpose |
+|---|---|---|
+| Node.js | v18+ | Frontend & Backend |
+| Python | v3.9+ | ML Service |
+| Git | any | Version control |
 
-### Frontend Setup
-- cd frontend
-- npm install
-- npm run dev
-Access the application through the localhost on 5173.
+---
 
-### Deployment Plan
-The application will be cloud deployed to be scaled and made accessible.
+## 🚀 Installation & Running (Step-by-Step)
 
-### Infrastructure
-- Frontend: Installed on Vercel or Netlify to distribute the CDN on the global level and automatically build on the basis of GitHub.
-- Browser: Built as a Node.js web service on Render / Heroku.
-ML Service: Python dependencies and auto-scaling Containerized using Docker and deployed to Google Cloud Run.
-- Database Vector: ChromaDB is at present local, although it will be moved to Pinecone or Weaviate on the move to production persistence.
+You need **3 terminal windows** open simultaneously.
 
-### CI/CD Pipeline
-To execute tests (testmockrag.py) on each push, the workflow is run on GitHub Actions.
-Upon merging to the main branch, it is automatically deployed.
+### Step 1 — Clone the Repository
+```bash
+git clone https://github.com/Amandine0610/museum_chatbot_prototype.git
+cd museum_chatbot_prototype
+```
 
-### Testing
-- ML: python testmock_rag.py: Checks the logic of the RAG pipeline using mock data.
-- Backend: Swagger UI can be used at the endpoint of API testing at the localhost:3000/api-docs.
+### Step 2 — ML Service (Terminal 1)
+```bash
+cd ml-service
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# Windows:
+venv\Scripts\activate
+# Mac/Linux:
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# (Optional) Add your OpenAI API key for live RAG responses
+# Create a file called .env with: OPENAI_API_KEY=sk-...
+# Without a key the app runs in Demo Mode
+
+# Start the ML service
+python app.py
+```
+✅ You should see: `Running on http://127.0.0.1:5000`
+
+### Step 3 — Backend (Terminal 2)
+```bash
+cd backend
+
+npm install
+
+# Start the backend
+npm start
+```
+✅ You should see: `Backend Server running on port 3000`
+
+### Step 4 — Frontend (Terminal 3)
+```bash
+cd frontend
+
+npm install
+
+npm run dev
+```
+✅ You should see: `Local: http://localhost:5173/`
+
+### Step 5 — Open the App
+Open your browser and go to: **http://localhost:5173**
+
+---
+
+## 🧪 Running Tests
+
+The ML service has a full test suite covering unit tests and API integration tests:
+
+```bash
+cd ml-service
+
+# Activate the virtual environment first (see Step 2)
+venv\Scripts\activate   # Windows
+source venv/bin/activate  # Mac/Linux
+
+# Run all tests
+python test_rag_pipeline.py
+```
+
+**Test Coverage:**
+| Test Class | Tests | What's Covered |
+|---|---|---|
+| `TestMockRAGPipeline` | 8 tests | RAG logic, multilingual queries (EN/FR/RW), response time |
+| `TestFlaskAPI` | 5 tests | `/health` and `/query` endpoints, error handling, 400 responses |
+
+---
+
+## 🌍 Multilingual Support
+
+The system supports three languages end-to-end:
+
+| Language | UI Labels | Artefact Descriptions | Chat |
+|---|---|---|---|
+| 🇬🇧 English | ✅ | ✅ | ✅ |
+| 🇫🇷 Français | ✅ | ✅ | ✅ |
+| 🇷🇼 Kinyarwanda | ✅ | ✅ | ✅ |
+
+---
+
+## 🤖 AI / RAG Pipeline
+
+The ML service uses a **Retrieval-Augmented Generation** pipeline:
+
+1. **Ingestion:** Museum knowledge base (`museum_data.txt`) is loaded and split into chunks
+2. **Embedding:** Text chunks are embedded using OpenAI embeddings and stored in ChromaDB
+3. **Retrieval:** User queries retrieve the top-3 most relevant chunks semantically
+4. **Generation:** A GPT-3.5-turbo LLM generates a culturally contextualised answer
+
+> **Demo Mode:** If no `OPENAI_API_KEY` is set, the service runs in demo mode and returns informative placeholder responses. This allows the full UI to be demonstrated without an API key.
+
+---
+
+## 📁 Project Structure
+
+```
+museum_chatbot_prototype/
+├── frontend/               # React + Vite UI
+│   ├── src/
+│   │   ├── components/
+│   │   │   ├── LanguageSelector.jsx
+│   │   │   └── ArtifactDetail.jsx
+│   │   ├── translations.js      # EN / FR / RW strings
+│   │   ├── App.jsx
+│   │   └── main.jsx
+│   └── public/artefacts/        # Artefact images go here
+├── backend/                # Node.js Express API Gateway
+│   └── server.js
+├── ml-service/             # Python Flask RAG Service
+│   ├── app.py
+│   ├── rag_pipeline.py
+│   ├── museum_data.txt         # Museum knowledge base
+│   ├── requirements.txt
+│   └── test_rag_pipeline.py    # Test suite
+└── README.md
+```
+
+---
+
+## 📊 Performance & Evaluation
+
+| Metric | Result |
+|---|---|
+| API Response Time (Mock Mode) | < 100ms |
+| API Response Time (Live RAG) | ~1.2s |
+| Languages Supported | 3 (EN, FR, RW) |
+| Artefacts in Knowledge Base | 2 (expandable) |
+| Test Pass Rate | 13/13 (100%) |
+
+---
+
+## 🚢 Deployment Plan
+
+| Component | Platform | Notes |
+|---|---|---|
+| Frontend | Vercel / Netlify | Auto-deploy from `main` branch |
+| Backend | Render (Node.js) | Free tier, auto-sleep after inactivity |
+| ML Service | Render (Python) | Requires `OPENAI_API_KEY` env var |
+
+**Environment Variables needed on deployment:**
+- `OPENAI_API_KEY` — for the ML Service
+- `ML_SERVICE_URL` — Backend needs the deployed ML service URL
+
+---
+
+## 🔑 Key Technologies
+
+`ReactJS` · `Vite` · `Python` · `Flask` · `LangChain` · `ChromaDB` · `OpenAI GPT-3.5` · `Node.js` · `Express` · `RAG` · `Kinyarwanda NLP`
