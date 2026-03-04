@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://127.0.0.1:5050';
+const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'https://museum-chatbot-ml-1.onrender.com';
 console.log('--- BACKEND CONFIGURATION ---');
 console.log('ML_SERVICE_URL:', ML_SERVICE_URL);
 console.log('PORT:', PORT);
@@ -17,29 +17,42 @@ app.use(express.json());
 // Proxy route to ML Service
 app.post('/api/chat', async (req, res) => {
     const targetUrl = `${ML_SERVICE_URL}/query`;
-    console.log(`Forwarding query to: ${targetUrl}`);
+    console.log(`[Proxy] Forwarding query to: ${targetUrl}`);
 
     try {
         const response = await axios.post(targetUrl, req.body, {
-            timeout: 60000
+            timeout: 85000, // 85 seconds to allow for ML Service cold start
+            validateStatus: (status) => status < 500 // Don't throw for 4xx/5xx initially
         });
-        res.json(response.data);
-    } catch (error) {
-        console.error(`ERROR calling ML Service at ${targetUrl}:`, error.message);
 
+        // If we get an actual response from the service
+        return res.status(response.status).json(response.data);
+    } catch (error) {
+        console.error(`[CRITICAL] Error reaching ML Service:`, error.message);
+
+        // If we got a response from the Render gateway (502/503 HTML)
         if (error.response) {
-            console.error('ML Service Status:', error.response.status);
-            console.error('ML Service Data:', error.response.data);
-            return res.status(error.response.status).json(error.response.data);
+            const status = error.response.status;
+            const data = error.response.data;
+
+            if (typeof data === 'string' && data.includes('<!DOCTYPE html>')) {
+                return res.status(503).json({
+                    response: "The AI service is waking up... Please wait 30 seconds and click 'Ask' again. (This happens after inactivity)",
+                    status: "waking_up"
+                });
+            }
+            return res.status(status).json(data);
         }
 
-        // Generic fallback with diagnostic info
-        res.json({
-            response: `Connection Error: Backend could not reach AI service at ${ML_SERVICE_URL}.`,
+        // Raw timeout or connection failure
+        const isTimeout = error.code === 'ECONNABORTED' || error.message.includes('timeout');
+        res.status(503).json({
+            response: isTimeout
+                ? "The AI is still processing. Please try again in 1 minute."
+                : "The AI service is currently unreachable.",
             diagnostics: {
                 target: targetUrl,
-                error: error.message,
-                hint: "Check if ML_SERVICE_URL in Render matches your ML service's public URL and remove any ':5050' if present."
+                error: error.message
             }
         });
     }

@@ -20,6 +20,7 @@ function App() {
     return language
         ? <ArtifactDetail
             language={language}
+            setLanguage={setLanguage}
             onBack={() => {
                 setLanguage(null);
                 setInitialArtifactId(null);

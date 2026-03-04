@@ -85,7 +85,7 @@ const ARTEFACTS = [
     },
 ];
 
-const ArtifactDetail = ({ language, onBack, initialArtifactId }) => {
+const ArtifactDetail = ({ language, setLanguage, onBack, initialArtifactId }) => {
     const t = translations[language] || translations.en;
     const [artefactIndex, setArtefactIndex] = useState(0);
     const [showChat, setShowChat] = useState(false);
@@ -108,6 +108,13 @@ const ArtifactDetail = ({ language, onBack, initialArtifactId }) => {
     }, [initialArtifactId]);
 
     const artefact = ARTEFACTS[artefactIndex];
+
+    const nextLanguage = () => {
+        const langs = Object.keys(LANG_LABELS);
+        const idx = langs.indexOf(language);
+        const next = langs[(idx + 1) % langs.length];
+        setLanguage(next);
+    };
 
     useEffect(() => {
         // Reset messages when museum changes so the visitor gets a fresh greeting
@@ -181,15 +188,22 @@ const ArtifactDetail = ({ language, onBack, initialArtifactId }) => {
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                     {t.back}
                 </button>
-                <button className="flex items-center gap-1 text-sm font-medium hover:opacity-80 transition-opacity">
+                <button
+                    onClick={() => { setLanguage(null); onBack(); }}
+                    className="flex items-center gap-1 text-sm font-medium hover:opacity-80 transition-opacity"
+                >
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                     {t.home}
                 </button>
             </div>
             <h2 className="text-[11px] font-bold uppercase tracking-wider opacity-90 truncate max-w-[120px]">{museum}</h2>
-            <div className="bg-white/15 px-3 py-1 rounded-full text-[11px] font-semibold border border-white/10 backdrop-blur-sm">
+            <button
+                onClick={nextLanguage}
+                className="bg-white/15 px-3 py-1 rounded-full text-[11px] font-semibold border border-white/10 backdrop-blur-sm hover:bg-white/30 transition-all active:scale-95 flex items-center gap-1"
+            >
+                <span className="opacity-70 text-[9px] mr-1">🌐</span>
                 {LANG_LABELS[language]}
-            </div>
+            </button>
         </header>
     );
 

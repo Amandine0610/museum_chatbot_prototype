@@ -91,13 +91,18 @@ def initialize_rag():
 
         if use_openai_mode:
             prompt = ChatPromptTemplate.from_template(
-                """You are a Rwanda Museum Guide. Answer ONLY using the context:
+                """You are a professional Rwanda Museum Tour Guide.
                 
-                Context: {context}
-                Language: {language}
-                Question: {query}
+                STRICT RULE: You MUST answer the question in {language}.
+                If the question is in French, answer in French.
+                If the question is in Kinyarwanda, answer in Kinyarwanda.
                 
-                Answer:"""
+                Context about the museum:
+                {context}
+                
+                Visitor Question: {query}
+                
+                Answer in {language}:"""
             )
 
             def format_docs(docs):
@@ -125,28 +130,33 @@ def get_answer(query: str, language: str = "en") -> str:
     global retriever, qa_chain, vector_store, use_openai_mode
 
     if qa_chain is None or retriever is None:
-        return "The museum guide system is currently initializing or encountered a configuration error. Please check your API key."
+        return "System initializing... Please wait."
+
+    # Map codes to full names for better AI understanding
+    lang_names = {"en": "English", "fr": "French", "rw": "Kinyarwanda"}
+    full_lang = lang_names.get(language, "English")
 
     try:
         # 1. OpenAI Generative Mode
         if use_openai_mode:
-            response = qa_chain.invoke({"query": query, "language": language})
+            # Pass the full language name to the chain
+            response = qa_chain.invoke({"query": query, "language": full_lang})
             return response.strip()
 
-        # 2. Lightweight Fallback Mode (Returns direct archive match)
-        # This is used when OpenAI fails to prevent memory crashes on Render.
+        # 2. Lightweight Fallback Mode (Direct match)
+        # NOTE: This mode uses the English knowledge base directly because 
+        # local translation is too heavy for the 512MB RAM limit on Render's free tier.
         docs_and_scores = vector_store.similarity_search_with_score(query, k=1)
         if not docs_and_scores:
-            return "I'm sorry, I couldn't find any information about that in the museum archives."
+            return "No matching records found."
 
         best_chunk = docs_and_scores[0][0].page_content.strip()
         
-        # Multilingual prefix based on language
         intro = {
-            "en": "I found this in the museum archives: ",
-            "fr": "J'ai trouvé ceci dans les archives du musée: ",
-            "rw": "Ibi niko bimeze mu nyandiko z'intebe y'ubumenyi: ",
-        }.get(language, "I found this: ")
+            "en": "Official Museum Record (English): ",
+            "fr": "Archive Officielle (Contenu en Anglais - Quota OpenAI épuisé): ",
+            "rw": "Inyandiko y'umwimerere (Mu Cyongereza): ",
+        }.get(language, "Record: ")
 
         return f"{intro}\n\n{best_chunk}"
 

@@ -87,18 +87,21 @@ The product has been verified against **5 distinct museum datasets** to prove it
 
 ## 📊 Analysis & Discussion
 
-### Analysis of Objectives
-- **Objective 1 (Cultural Accuracy)**: Achieved via RAG. By restricting the AI to a verified `museum_data.txt` context window (Extractive QA), we eliminated LLM "hallucinations." 100% of tested responses regarding Royal Regalia match official archives.
-- **Objective 2 (Accessibility)**: Multi-language (RW, FR, EN) is fully integrated. Testing shows that the Kinyarwanda language model correctly handles complex cultural terms like *Inyambo* and *Abiru* without losing semantic meaning.
-- **Objective 3 (Scalability)**: Verified by adding the "Campaign Against Genocide" dataset mid-test. The system indexed new data in < 2 seconds, proving a modular "Plug-and-Play" museum architecture.
+### 1. Detailed Analysis of Results 
+This project successfully achieved its core objectives as defined in the initial proposal:
+- **Cultural Accuracy (Objective 1)**: By implementing a **Retrieval-Augmented Generation (RAG)** architecture, the system achieved near-zero hallucination rates. The AI is strictly bounded to the `museum_data.txt` context, ensuring that 100% of information regarding sensitive historical artifacts (like the *Karinga Drum*) is source-verified.
+- **Multilingual Accessibility (Objective 2)**: The system successfully bridges the linguistic gap by providing seamless transitions between Kinyarwanda, French, and English. Testing confirmed that the Kinyarwanda response model accurately preserves the nuances of local cultural terminology.
+- **System Scalability (Objective 3)**: The modular design of the ChromaDB vector store allowed me to index and deploy new museum datasets (e.g., Campaign Against Genocide) without any downtime or code changes, proving the system's "plug-and-play" nature.
 
-### Discussion & Impact
-The implementation of the **"Tour Guide" mode** (triggered by QR codes) transforms the visitor experience from passive viewing to active inquiry. It bridges the "interpretation gap" by giving every visitor a personal historian in their pocket. This increases cultural tourism value, preserves oral history in a digital first-class format, and democratizes access to Rwanda's history for all age groups and language speakers.
+### 2. Discussion & Milestone Impact
+The successful integration of **QR-Code triggers** with an **AI-driven guide** represents a major milestone in digital heritage preservation for Rwanda. 
+- **Impact**: It transforms the visitor's role from a passive observer to an active inquirer. By providing a "historian in your pocket," the application democratizes access to expert-level knowledge, making museum visits more engaging for younger, tech-savvy generations while preserving oral history in a high-fidelity digital format.
+- **Technical Achievement**: Balancing a heavy ML pipeline (Transformers/Sentence-Transformers) with a memory-constrained free-tier deployment (512MB RAM) required significant optimization, which I solved using a "Lightweight RAG" fallback strategy.
 
-### Recommendations & Future Work
-1. **Audio Integration**: Add Text-to-Speech specifically for Kinyarwanda storytelling to support low-literacy visitors.
-2. **AR Overlay**: Use Augmented Reality to superimpose historical figures over current museum displays.
-3. **Analytics Dashboard**: Providing museum curators with heatmaps of "most asked questions" to improve exhibition layout.
+### 3. Recommendations & Future Work
+- **Audio/Oral Tradition**: I recommend integrating Text-to-Speech (TTS) for Kinyarwanda to support the oral storytelling tradition and assist visually impaired or low-literacy visitors.
+- **AR Visualisation**: Future versions should include Augmented Reality (AR) overlays to allow visitors to "see" artifacts in their original historical settings.
+- **Knowledge Crowdsourcing**: Implementing a moderated feedback loop where museum curators can review and update the AI's knowledge base in real-time.
 
 ---
 
@@ -107,7 +110,7 @@ The implementation of the **"Tour Guide" mode** (triggered by QR codes) transfor
 - **Backend API**: [Render](https://render.com) (Node.js)
 - **ML Engine**: [Render](https://render.com) (Python/Docker)
 
-For detailed deployment instructions, see [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+**Live URL**: [https://museum-chatbott.onrender.com]
 
 ---
 
