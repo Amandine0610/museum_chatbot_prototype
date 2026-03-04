@@ -4,12 +4,15 @@ import os
 # Base URL for the frontend where the museum visitor will be directed
 # Since the frontend runs on Port 5173, and we want to test on our local network:
 # Note: Replace this with the actual IP if testing on a separate phone
-base_url = "http://192.168.8.116:5173"
+base_url = "https://museum-chatbott.onrender.com"
 
 museums = [
     {"name": "Ethnographic_Museum_Huye", "id": 1},
     {"name": "Kings_Palace_Nyanza", "id": 2},
     {"name": "Campaign_Against_Genocide_Kigali", "id": 5},
+    {"name": "Museum_Ingabo", "id": 3},
+    {"name": "Rwanda_Art_Museum", "id": 4},
+
 ]
 
 os.makedirs("qr_codes", exist_ok=True)
