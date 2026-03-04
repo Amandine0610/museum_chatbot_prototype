@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://127.0.0.1:5005';
+const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://127.0.0.1:5050';
 
 app.use(cors());
 app.use(express.json());
