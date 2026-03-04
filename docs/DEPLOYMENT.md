@@ -40,8 +40,8 @@ npm run dev     # Runs on port 5173
 
 ## 4. Testing the Deployment
 Open your browser to:
-- `http://localhost:5173` (Language Selection)
-- `http://localhost:5173/?id=3` (Direct Museum Ingabo access)
+- `https://museum-chatbott.onrender.com` (Language Selection)
+- `https://museum-chatbott.onrender.com/?id=3` (Direct Museum Ingabo access)
 
 ## 5. Cloud Deployment Guide
 

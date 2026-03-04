@@ -16,19 +16,15 @@ app.post('/api/chat', async (req, res) => {
         const response = await axios.post(`${ML_SERVICE_URL}/query`, req.body);
         res.json(response.data);
     } catch (error) {
-        console.error('Error connecting to ML Service:', error.message);
+        // Pass through the ML Service's response if it actually responded (e.g., 503 Service Unavailable)
         if (error.response) {
-            console.error('Data:', error.response.data);
-            console.error('Status:', error.response.status);
-        } else if (error.request) {
-            console.error('No response received:', error.request);
-        } else {
-            console.error('Error setting up request:', error.message);
+            console.error('ML Service Responded with Error:', error.response.status, error.response.data);
+            return res.status(error.response.status).json(error.response.data);
         }
 
-        // Fallback mock response if ML service is down
+        // Generic fallback for actual connection failures (timeout, DNS, service down)
         res.json({
-            response: "Network Error: Could not reach the AI service. Please ensure the Python server is running.",
+            response: "Connection Error: Could not reach the AI service. Please ensure the Python server is running in the Render dashboard.",
             source: "backend-fallback",
             error: error.message
         });

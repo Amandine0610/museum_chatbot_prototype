@@ -8,7 +8,7 @@ A culturally contextualised, machine-learning–driven chatbot utilising **Retri
 
 ## 📺 Final Software Demo
 - **Demo Video:** [Click here to watch the 5-minute Demo](https://vimeo.com/placeholder) *(Update with your link)*
-- **Live Deployment:** [https://museum-chatbot-prototype.vercel.app](https://museum-chatbot-prototype.vercel.app) *(Update with your link)*
+- **Live Deployment:** [https://museum-chatbott.onrender.com]
 
 ---
 
@@ -101,7 +101,7 @@ The implementation of the **"Tour Guide" mode** (triggered by QR codes) transfor
 ---
 
 ## 🚀 Deployed System Architecture
-- **Frontend**: [Render](https://vercel.com) (React + Vite)
+- **Frontend**: [Render](https://render.com) (React + Vite)
 - **Backend API**: [Render](https://render.com) (Node.js)
 - **ML Engine**: [Render](https://render.com) (Python/Docker)
 
