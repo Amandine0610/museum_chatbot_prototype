@@ -1,35 +1,28 @@
 # Node.js
-node_modules/
-dist/
-build/
+**/node_modules/
+**/dist/
+**/build/
 .env
+**/.env
+**/.env.local
 
 # Python
-__pycache__/
-*.py[cod]
-*$py.class
-venv/
-env/
-.venv/
-ml_service.log
-backend.log
-check_key*.py
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+**/venv/
+**/env/
+**/.venv/
+**/*.log
+
+# Project Specific
+**/chroma_db/
+**/qr_codes/
+**/data_backups/
+live_query_results.txt
 
 # OS
 .DS_Store
 Thumbs.db
-
-# Outputs
-qr_codes/
-live_query_results.txt
-chroma_db/
-ml-service/venv/
-ml-service/.env
-ml-service/chroma_db/
-ml-service/data/
-ml-service/logs/
-ml-service/venv/
-ml-service/venv
-ml-service/venv/
-
-
+.vscode/
+.idea/
