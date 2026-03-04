@@ -154,8 +154,16 @@ const ArtifactDetail = ({ language, onBack, initialArtifactId }) => {
                 }
             });
 
-        } catch {
-            setMessages(p => [...p, { role: 'bot', text: t.connectionError, time: new Date() }]);
+        } catch (error) {
+            const errorMsg = error.response
+                ? `Error ${error.response.status}: ${JSON.stringify(error.response.data)}`
+                : `Network Error: ${error.message}. Target: ${import.meta.env.VITE_API_URL || 'current domain'}`;
+
+            setMessages(p => [...p, {
+                role: 'bot',
+                text: `${t.connectionError}\n\n[Diagnostic Info]: ${errorMsg}\n\nTip: Ensure VITE_API_URL is set in Render Environment and you have Redeployed.`,
+                time: new Date()
+            }]);
         } finally {
             setLoading(false);
         }

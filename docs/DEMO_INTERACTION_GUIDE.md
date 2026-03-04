@@ -1,52 +1,45 @@
-# 📜 Capstone Demo: Chatbot Interaction Guide
+# 📜 My Capstone Demo: Interaction & Testing Log
+**Developer**: Amandine Irakoze
 
-Use these specific questions during your demo to showcase the **depth, accuracy, and cultural intelligence** of the Museum Chatbot. These questions are mapped to the verified data in the knowledge base.
+In my final demonstration, I use these specific questions to verify the depth and accuracy of my RAG-powered chatbot. These tests confirm that the system correctly retrieves information from the five main museum archives.
 
 ---
 
-## 1. Museum Ingabo (Kigali)
-*Focus: Psychological healing and modern art.*
+## 1. Museum Ingabo (Kigali Testing)
+I verified the system's ability to handle contemporary cultural art questions:
 - **English**: "What is the meaning behind the 'Inzira y'Inzitane' exhibition?"
 - **Kinyarwanda**: "Vuga amateka y'imurikagurisha rya Inzira y'Inzitane n'umuhanzi King Ngabo."
 - **French**: "Qui est l'artiste derrière le Musée Ingabo et quelle est sa vision?"
 - **Advanced**: "How does the 'Blind Drum Walk' work?"
 
-## 2. Ethnographic Museum (Huye)
-*Focus: Royal sovereignty and traditional life.*
+## 2. Ethnographic Museum (Huye Testing)
+I tested the system on pre-colonial governance and traditional craftsmanship:
 - **English**: "Tell me about the importance of the Karinga drum."
 - **Kinyarwanda**: "Karinga yari ifite akahe kamaro mu bwami bw'u Rwanda?"
 - **French**: "Qui étaient les Abiru et quel était leur rôle?"
 - **Advanced**: "Explain the meaning of the Agaseke (Peace Basket) patterns."
 
-## 3. King's Palace Museum (Nyanza)
-*Focus: Royal elegance and justice.*
+## 3. King's Palace Museum (Nyanza Testing)
+I validated the retrieval of royal history and sacred traditions:
 - **English**: "Why are the Inyambo cattle called 'royal poets'?"
 - **Kinyarwanda**: "Inka z'Inyambo zatozwaga gute mu birori by'ibwami?"
 - **French**: "Quelle est l'importance du trône 'Intebe y’Umwami'?"
 - **Advanced**: "What was the 'Urugo' of King Mutara III Rudahigwa like?"
 
-## 4. Campaign Against Genocide Museum (CAG)
-*Focus: Resilience and liberation history.*
+## 4. Campaign Against Genocide Museum (CAG Testing)
+I ensured accuracy for historical liberation facts:
 - **English**: "What was the role of the 12.7mm Machine Gun in stopping the Genocide?"
 - **Kinyarwanda**: "Imashini ya 12.7mm yakoreshejwe gute ku nyubako ya CND?"
 - **French**: "Racontez-moi l'histoire du 3ème bataillon pendant le siège du Parlement."
-- **Advanced**: "How were the rescue operations across Kigali coordinated?"
 
-## 5. National History Museum (Kandt House)
-*Focus: Exploration and urban birth.*
-- **English**: "Who was Richard Kandt and what was his mission in Rwanda?"
-- **Kinyarwanda**: "Richard Kandt yavumbuye isoko y'uruzi rwa Nil he?"
-- **French**: "Comment Kigali est-elle devenue la capitale à l'époque de Richard Kandt?"
-
-## 6. Rwanda Art Museum (Kanombe)
-*Focus: Geometric creativity.*
-- **English**: "Who originated the Imigongo art form?"
-- **Kinyarwanda**: "Imigongo yatangiye ryari kandi yakozwe na nde?"
-- **Advanced**: "What materials are traditionally used to make Imigongo patterns?"
+## 5. National History Museum & Art Museum
+I confirmed identity and origin details:
+- **Richard Kandt**: "Comment Kigali est-elle devenue la capitale à l'époque de Richard Kandt?"
+- **Imigongo Art**: "Who originated the Imigongo art form?"
 
 ---
 
-## 💡 Pro-Tips for an "Excellent" Demo:
-1. **Multilingual Switch**: Start in English, then refresh the page with `?lang=rw` to show the bot immediately responding in Kinyarwanda.
-2. **QR Deep Linking**: Use `?id=5` to jump straight to the CAG Museum to show the "Automatic Context Loading" feature.
-3. **No Hallucinations**: Ask a random question (e.g., "Who won the World Cup?"). The bot will politely answer that it only knows about museum history—this proves your **Extractive QA logic** is working!
+## 💡 Technical Proofs Shown in Demo:
+1. **Multilingualism**: I show the bot switching languages seamlessly by re-entering the site with different language parameters.
+2. **QR Deep Linking**: I demonstrate scanning a QR code (using `?id=3`) which automatically filters the AI's "brain" to the specific museum.
+3. **Hallucination Protection**: I ask a non-museum question (e.g., "Who won the World Cup?") to prove that my **Extractive QA logic** restricts the bot's answers to verified museum archives only.
