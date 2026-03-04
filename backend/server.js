@@ -6,6 +6,10 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 const ML_SERVICE_URL = process.env.ML_SERVICE_URL || 'http://127.0.0.1:5050';
+console.log('--- BACKEND CONFIGURATION ---');
+console.log('ML_SERVICE_URL:', ML_SERVICE_URL);
+console.log('PORT:', PORT);
+console.log('----------------------------');
 
 app.use(cors());
 app.use(express.json());
@@ -13,7 +17,9 @@ app.use(express.json());
 // Proxy route to ML Service
 app.post('/api/chat', async (req, res) => {
     try {
-        const response = await axios.post(`${ML_SERVICE_URL}/query`, req.body);
+        const response = await axios.post(`${ML_SERVICE_URL}/query`, req.body, {
+            timeout: 60000 // Increase timeout to 60 seconds for slow cold starts
+        });
         res.json(response.data);
     } catch (error) {
         // Pass through the ML Service's response if it actually responded (e.g., 503 Service Unavailable)

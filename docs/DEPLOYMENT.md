@@ -66,7 +66,7 @@ Since this contains the RAG engine and ChromaDB, use **Render** or **Railway**:
 ### C. Backend (Render / Railway)
 1. Connect the `backend` subfolder.
 2. **Environment Variables**: 
-   - `ML_SERVICE_URL`: Set this to your deployed ML Service URL (e.g., `https://your-ml-app.onrender.com`).
+   - `ML_SERVICE_URL`: Set this to `https://museum-chatbot-ml-1.onrender.com`
 3. **Start Command**: `node server.js`
 
 ---
