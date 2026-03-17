@@ -95,7 +95,7 @@ const ArtifactDetail = ({ language, setLanguage, onBack, initialArtifactId, init
 
             setMessages(p => [...p, {
                 role: 'bot',
-                text: `I'm having a bit of trouble connecting to the archives. Please try again in a moment.\n\n[Diagnostic]: ${errorMsg}`,
+                text: `I'm having a bit of trouble connecting to the archives. Please try again in a moment.\n\n[Diagnostic]: ${errorMsg}\n[Target URL]: ${apiUrl || 'Current Origin (Local)'}`,
                 time: new Date()
             }]);
         } finally {
@@ -107,24 +107,23 @@ const ArtifactDetail = ({ language, setLanguage, onBack, initialArtifactId, init
 
     const Header = () => (
         <header className="bg-museum-brown-dark px-4 py-3 flex items-center justify-between text-white z-20 shadow-md">
-            <div className="flex items-center gap-3">
-                <button onClick={onBack} className="flex items-center gap-1 text-sm font-medium hover:opacity-80 transition-opacity">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                    {t.back}
+            <div className="flex items-center gap-4">
+                <button onClick={onBack} className="p-1.5 hover:bg-white/10 rounded-full transition-colors">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                 </button>
-                <button
-                    onClick={() => { setLanguage(null); onBack(); }}
-                    className="flex items-center gap-1 text-sm font-medium hover:opacity-80 transition-opacity"
-                >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                    {t.home}
-                </button>
+                <div className="flex flex-col">
+                    <h1 className="text-sm font-bold leading-none mb-1">{currentMuseum.name[language] || currentMuseum.name.en}</h1>
+                    <div className="flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                        <p className="text-[10px] text-museum-gold opacity-80 font-bold uppercase tracking-wider">v3.9 Live Archives</p>
+                    </div>
+                </div>
             </div>
             <button
                 onClick={nextLanguage}
-                className="bg-white/15 px-3 py-1 rounded-full text-[11px] font-semibold border border-white/10 backdrop-blur-sm hover:bg-white/30 transition-all active:scale-95 flex items-center gap-1"
+                className="bg-white/15 px-3 py-1.5 rounded-full text-[11px] font-bold border border-white/10 backdrop-blur-sm hover:bg-white/30 transition-all flex items-center gap-1.5"
             >
-                <span className="opacity-70 text-[9px] mr-1">🌐</span>
+                <span>🌐</span>
                 {LANG_LABELS[language]}
             </button>
         </header>
@@ -139,14 +138,17 @@ const ArtifactDetail = ({ language, setLanguage, onBack, initialArtifactId, init
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
             <div className="absolute bottom-4 left-6 right-6 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-md flex items-center justify-center overflow-hidden border border-white/30">
-                    <img src={currentMuseum.logo} alt="Logo" className="w-8 h-8 object-contain" />
-                </div>
-                <div>
-                    <h4 className="text-white text-[9px] font-bold uppercase tracking-[0.2em] opacity-80 mb-0.5">Official Guide</h4>
-                    <h3 className="text-white font-bold text-lg leading-tight">
-                        {currentMuseum.name[language] || currentMuseum.name.en}
-                    </h3>
+                <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-museum-gold flex items-center justify-center text-museum-brown-dark shadow-sm">
+                        <span className="text-xl font-bold">🏛️</span>
+                    </div>
+                    <div>
+                        <h1 className="text-lg font-bold leading-tight">{currentMuseum.name[language] || currentMuseum.name.en}</h1>
+                        <div className="flex items-center gap-2">
+                            <p className="text-xs text-museum-gold opacity-90 font-medium">Digital Curator v3.9</p>
+                            <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

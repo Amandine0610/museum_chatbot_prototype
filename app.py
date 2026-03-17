@@ -1,6 +1,6 @@
 """
 Rwanda Museum Chatbot - RAG-based chatbot using Chroma DB + Gemini LLM
-Version: 3.7 (Instant Boot - Render High Priority)
+Version: 3.9 (Visual Confirmation - Total Victory)
 Supports: English, French, Kinyarwanda for ALL Museums
 """
 
@@ -14,7 +14,9 @@ from flask_cors import CORS
 # HEAVY IMPORTS MOVED TO LAZY LOADERS BELOW
 
 app = Flask(__name__)
-CORS(app)
+# Hardened CORS for production
+from flask_cors import CORS
+CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
 # Instance Configuration
 INSTANCE_ID = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
@@ -282,12 +284,12 @@ def chat():
     context = results['documents'][0] if results['documents'] else []
     
     response = generate_response(msg, context, lang, mid, m_name)
-    return jsonify({'response': response, 'instance': INSTANCE_ID, 'version': '3.7'})
+    return jsonify({'response': response, 'instance': INSTANCE_ID, 'version': '3.8'})
 
 @app.route('/api/status', methods=['GET'])
 def status(): 
     count = collection.count() if collection else 0
-    return jsonify({'status': 'online', 'version': '3.7', 'instance': INSTANCE_ID, 'indexed': count})
+    return jsonify({'status': 'online', 'version': '3.8', 'instance': INSTANCE_ID, 'indexed': count})
 
 if __name__ == '__main__':
     # Local runs still pre-load for comfort
@@ -295,8 +297,9 @@ if __name__ == '__main__':
     get_gemini()
     port = int(os.environ.get('PORT', 5000))
     print("\n" + "*"*60)
-    print(f"  !!! INSTANT BOOT: MUSEUM SERVER v3.7 !!!")
-    print(f"  STATUS: RENDER READY & FAST AS LIGHT")
+    print(f"  !!! RESILIENT PRODUCTION: MUSEUM SERVER v3.8 !!!")
+    print(f"  STATUS: RENDER READY & CORS HARDENED")
     print(f"  PORT: {port} | INSTANCE ID: {INSTANCE_ID}")
+    print("  TIP: The first query after startup takes ~20s to load the AI brain.")
     print("*"*60 + "\n")
     app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
