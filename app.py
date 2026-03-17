@@ -1,6 +1,6 @@
 """
 Rwanda Museum Chatbot - RAG-based chatbot using Chroma DB + Gemini LLM
-Version: 3.6 (Cloud Native - Fast Boot)
+Version: 3.7 (Instant Boot - Render High Priority)
 Supports: English, French, Kinyarwanda for ALL Museums
 """
 
@@ -11,9 +11,7 @@ import string
 import re
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import chromadb
-from sentence_transformers import SentenceTransformer
-import google.generativeai as genai
+# HEAVY IMPORTS MOVED TO LAZY LOADERS BELOW
 
 app = Flask(__name__)
 CORS(app)
@@ -32,15 +30,21 @@ try:
     else: load_dotenv()
 except ImportError: pass
 
-# LLM Config
-GEMINI_API_KEY = os.environ.get('GOOGLE_API_KEY') or os.environ.get('GEMINI_API_KEY', '')
-if GEMINI_API_KEY:
-    genai.configure(api_key=GEMINI_API_KEY)
-    gemini_model = genai.GenerativeModel('gemini-2.0-flash')
-    print(f"[{INSTANCE_ID}] Gemini READY")
-else:
-    gemini_model = None
-    print(f"[{INSTANCE_ID}] Gemini MISSING")
+# LLM Config (Lazy Configured)
+gemini_model = None
+
+def get_gemini():
+    global gemini_model
+    if gemini_model is None:
+        import google.generativeai as genai
+        api_key = os.environ.get('GOOGLE_API_KEY') or os.environ.get('GEMINI_API_KEY', '')
+        if api_key:
+            genai.configure(api_key=api_key)
+            gemini_model = genai.GenerativeModel('gemini-2.0-flash')
+            print(f"[{INSTANCE_ID}] Gemini Brain Loaded")
+        else:
+            print(f"[{INSTANCE_ID}] Gemini API Key Missing")
+    return gemini_model
 
 # Museum Mappings
 MUSEUM_NAMES = {
@@ -149,9 +153,11 @@ def get_db():
     global embedding_model, chroma_client, collection
     if embedding_model is None:
         print(f"[{INSTANCE_ID}] Lazy-loading ML Engine & ChromaDB...")
+        import chromadb
+        from sentence_transformers import SentenceTransformer
         embedding_model = SentenceTransformer(MODEL_NAME)
         chroma_client = chromadb.PersistentClient(path=CHROMA_PERSIST_DIR)
-        collection = chroma_client.get_or_create_collection(name="rwanda_museums_v3_6")
+        collection = chroma_client.get_or_create_collection(name="rwanda_museums_v3_7")
         if collection.count() == 0:
             initialize_vector_store()
     return embedding_model, collection
@@ -227,10 +233,11 @@ def generate_response(query, context, language, museum_id, museum_name):
     }
 
     try:
-        if not gemini_model: raise Exception("No Key")
+        model = get_gemini()
+        if not model: raise Exception("No Key")
         context_text = "\n".join(context)
         prompt = f"System: {system_prompts.get(language, system_prompts['en'])}\nContext: {context_text}\nUser Question: {query}\n\nAssistant Response (Conversational):"
-        response = gemini_model.generate_content(prompt)
+        response = model.generate_content(prompt)
         return clean_text(response.text.strip())
     except Exception as e:
         print(f"[{INSTANCE_ID}] AI Error/Quota: {e}")
@@ -275,20 +282,21 @@ def chat():
     context = results['documents'][0] if results['documents'] else []
     
     response = generate_response(msg, context, lang, mid, m_name)
-    return jsonify({'response': response, 'instance': INSTANCE_ID, 'version': '3.6'})
+    return jsonify({'response': response, 'instance': INSTANCE_ID, 'version': '3.7'})
 
 @app.route('/api/status', methods=['GET'])
 def status(): 
     count = collection.count() if collection else 0
-    return jsonify({'status': 'online', 'version': '3.6', 'instance': INSTANCE_ID, 'indexed': count})
+    return jsonify({'status': 'online', 'version': '3.7', 'instance': INSTANCE_ID, 'indexed': count})
 
 if __name__ == '__main__':
     # Local runs still pre-load for comfort
     get_db()
+    get_gemini()
     port = int(os.environ.get('PORT', 5000))
     print("\n" + "*"*60)
-    print(f"  !!! CLOUD NATIVE: MUSEUM SERVER v3.6 !!!")
-    print(f"  STATUS: FAST BOOT ACTIVE")
+    print(f"  !!! INSTANT BOOT: MUSEUM SERVER v3.7 !!!")
+    print(f"  STATUS: RENDER READY & FAST AS LIGHT")
     print(f"  PORT: {port} | INSTANCE ID: {INSTANCE_ID}")
     print("*"*60 + "\n")
     app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
