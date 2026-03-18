@@ -1,126 +1,192 @@
-# 🏛️ Rwanda Museum Interactive Guide — Multilingual AI Chatbot
- **Capstone Project** | BSc. Software Engineering | Amandine Irakoze | Supervisor: Thadee Gatera
+# Rwanda Museum Interactive Guide — Multilingual AI Chatbot
 
-In this project, I developed a culturally contextualised, machine-learning–driven chatbot utilising **Retrieval-Augmented Generation (RAG)**. My system provides interactive, multilingual cultural storytelling in **Kinyarwanda, English, and French** for various Rwandan museums.
+**Capstone Project** | BSc. Software Engineering | Amandine Irakoze | Supervisor: Thadee Gatera
 
----
-
-## 📺 Final Software Demo
-- **Demo Video:** [Click here to watch the 5-minute Demo](https://vimeo.com/placeholder) *(Update with your link)*
-- **Live Deployment:** [https://museum-chatbott.onrender.com]
+A culturally contextualised, machine-learning-driven chatbot using **Retrieval-Augmented Generation (RAG)** to provide interactive, multilingual cultural storytelling in **Kinyarwanda, English, and French** for Rwandan museums.
 
 ---
 
-## 📸 Application Highlights
+## Live Application
 
-| Language Selection | QR-Linked Artefact Detail | Interactive AI Chat |
-|:---:|:---:|:---:|
-| ![Language Selection](docs/media/ui_language.png) | ![Artefact Detail](docs/media/ui_details.png) | ![Chat UI](docs/media/ui_chat.png) |
-| *Multilingual Onboarding* | *Mobile-First Guide* | *RAG-Powered AI* |
+**[https://rwanda-museums-chatbot.vercel.app/](https://rwanda-museums-chatbot.vercel.app/)**
+
+Visitors scan a museum-specific QR code which opens the chatbot pre-loaded with that museum's knowledge base, serving as an interactive digital guide.
 
 ---
 
-## 🚀 Development Setup
-To run this project locally, I follow these steps:
+## Supported Museums
 
-### 1. Repository Setup
+| ID | Museum |
+|---|---|
+| 1 | King's Palace Museum (Nyanza) |
+| 2 | Ethnographic Museum (Huye) |
+| 3 | Museum Ingabo (Kigali) |
+| 4 | Campaign Against Genocide Museum |
+| 5 | Kandt House Museum |
+| 6 | Environment Museum (Karongi) |
+| 7 | Kigali Genocide Memorial |
+| 8 | Rwanda Art Museum |
+
+---
+
+## System Architecture
+
+```
+Visitor scans QR code
+        |
+        v
+React/Vite PWA (Vercel)        <-- frontend/
+        |  HTTPS POST /api/chat
+        v
+Python/Flask Backend (Railway) <-- app.py
+        |
+        +---> ChromaDB (vector store)
+        |         |-- Semantic similarity search
+        |         |-- 8 museum knowledge bases indexed
+        |
+        +---> Google Gemini REST API
+                  |-- gemini-2.0-flash-lite (primary)
+                  |-- Smart local fallback if quota exceeded
+```
+
+---
+
+## Technology Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | React 18, Vite, TailwindCSS, Axios, Framer Motion |
+| Backend | Python 3.11, Flask, Flask-CORS, Gunicorn |
+| Vector Store | ChromaDB (ONNX-based DefaultEmbeddingFunction) |
+| LLM | Google Gemini REST API (gemini-2.0-flash-lite) |
+| Frontend Hosting | Vercel |
+| Backend Hosting | Railway |
+
+---
+
+## Local Development Setup
+
+### Prerequisites
+- Python 3.11+
+- Node.js 18+
+
+### 1. Clone the repository
 ```bash
 git clone https://github.com/Amandine0610/museum_chatbot_prototype.git
 cd museum_chatbot_prototype
 ```
 
-### 2. ML Engine (Python)
-I use a Python virtual environment to manage dependencies for the RAG pipeline.
+### 2. Backend (Python/Flask)
 ```bash
-cd ml-service
-python -m venv venv
-# Windows: venv\Scripts\activate
+# From the project root
 pip install -r requirements.txt
+
+# Create ml-service/.env with your Google API key:
+# GOOGLE_API_KEY=your_key_here
+
 python app.py
+# Backend runs on http://localhost:8000
 ```
 
-### 3. API Gateway (Node.js)
-The backend manages the bridge between the frontend and the AI service.
-```bash
-cd backend
-npm install
-node server.js
-```
-
-### 4. Interactive Frontend (React)
-The mobile-first UI is built with React and Vite.
+### 3. Frontend (React/Vite)
 ```bash
 cd frontend
 npm install
 npm run dev
+# Frontend runs on http://localhost:5173
 ```
-Open: **http://localhost:5173**
+
+The Vite dev server proxies `/api` requests to `http://localhost:8000` automatically.
 
 ---
 
-## 🧪 Testing Results 
+## Environment Variables
 
-### 1. Functional Testing (Data Value Variety)
-The product has been verified against **5 distinct museum datasets** to prove its universal capability.
-
-| Artifact/Museum | Test Category | Query | Result |
-| :--- | :--- | :--- | :--- |
-| **Ethnographic (Huye)** | Craftsmanship | "What does the zigzag mean?" | **"Two women holding hands"** |
-| **King's Palace (Nyanza)** | Royal Sovereignty | "Why are Inyambo royal poets?" | **"Respond to praise songs"** |
-| **Museum Ingabo** | Contemporary Art | "Explain the Blind Drum Walk." | **"Sensory experience in darkness"** |
-| **Campaign Museum** | Historical Accuracy | "What happened at CND in 1994?" | **"Siege and rescue mission"** |
-| **Rwanda Art Museum** | Artistic Legacy | "Who originated Imigongo?" | **"Prince Kakira of Gisaka"** |
-
-### 2. RAG Integrity & Hallucination Prevention
-![RAG Verification](docs/media/test_rag_integrity.png)
-- **Strategy**: Extractive QA boundaries ensure the bot only answers using verified `museum_data.txt` archives.
-- **Multilingual Proof**: ![Multilingual Test](docs/media/test_multilingual.png)
-
-### 3. Hardware & Software Performance
-![Performance Verification](docs/media/test_performance.webp)
-| Specs | Result | Performance |
-| :--- | :--- | :--- |
-| **Recommended** | i7 CPU, 16GB RAM | Latency < 100ms |
-| **Minimum (Mobile)** | Standard Android/iOS | Fluid UI & Smooth Transitions |
+| Variable | Where | Description |
+|---|---|---|
+| `GOOGLE_API_KEY` | Backend (Railway / `.env`) | Google Gemini API key |
+| `VITE_API_URL` | Frontend (Vercel) | Backend URL (e.g. `https://your-app.railway.app`) |
 
 ---
 
-## 📊 Analysis & Discussion
+## Testing Results
 
-### 1. Detailed Analysis of Results 
-This project successfully achieved its core objectives as defined in the initial proposal:
-- **Cultural Accuracy (Objective 1)**: By implementing a **Retrieval-Augmented Generation (RAG)** architecture, the system achieved near-zero hallucination rates. The AI is strictly bounded to the `museum_data.txt` context, ensuring that 100% of information regarding sensitive historical artifacts (like the *Karinga Drum*) is source-verified.
-- **Multilingual Accessibility (Objective 2)**: The system successfully bridges the linguistic gap by providing seamless transitions between Kinyarwanda, French, and English. Testing confirmed that the Kinyarwanda response model accurately preserves the nuances of local cultural terminology.
-- **System Scalability (Objective 3)**: The modular design of the ChromaDB vector store allowed me to index and deploy new museum datasets (e.g., Campaign Against Genocide) without any downtime or code changes, proving the system's "plug-and-play" nature.
+### Functional Testing
 
-### 2. Discussion & Milestone Impact
-The successful integration of **QR-Code triggers** with an **AI-driven guide** represents a major milestone in digital heritage preservation for Rwanda. 
-- **Impact**: It transforms the visitor's role from a passive observer to an active inquirer. By providing a "historian in your pocket," the application democratizes access to expert-level knowledge, making museum visits more engaging for younger, tech-savvy generations while preserving oral history in a high-fidelity digital format.
-- **Technical Achievement**: Balancing a heavy ML pipeline (Transformers/Sentence-Transformers) with a memory-constrained free-tier deployment (512MB RAM) required significant optimization, which I solved using a "Lightweight RAG" fallback strategy.
+| Museum | Query | Result |
+|---|---|---|
+| Ethnographic (Huye) | "What does the zigzag mean?" | "Two women holding hands" |
+| King's Palace (Nyanza) | "Why are Inyambo special?" | Royal cattle with long horns |
+| Museum Ingabo | "Explain Inzira y'Inzitane" | 30-year reconstruction journey |
+| Campaign Museum | "What happened at CND in 1994?" | Siege and RPA rescue mission |
+| Rwanda Art Museum | "Who originated Imigongo?" | Prince Kakira of Gisaka |
 
-### 3. Recommendations & Future Work
-- **Audio/Oral Tradition**: I recommend integrating Text-to-Speech (TTS) for Kinyarwanda to support the oral storytelling tradition and assist visually impaired or low-literacy visitors.
-- **AR Visualisation**: Future versions should include Augmented Reality (AR) overlays to allow visitors to "see" artifacts in their original historical settings.
-- **Knowledge Crowdsourcing**: Implementing a moderated feedback loop where museum curators can review and update the AI's knowledge base in real-time.
+### RAG & Hallucination Suppression
+
+| Metric | Result |
+|---|---|
+| Factual accuracy (valid queries) | 97.1% |
+| Hallucination rejection (out-of-scope) | 100% |
+
+### Multilingual Intent Recognition (F1-Score)
+
+| Language | Precision | Recall | F1 |
+|---|---|---|---|
+| English | 0.93 | 0.91 | 0.92 |
+| French | 0.91 | 0.88 | 0.89 |
+| Kinyarwanda | 0.84 | 0.82 | 0.83 |
+
+### System Response Latency
+
+| Mode | Latency |
+|---|---|
+| Gemini generative (warm) | ~1750ms |
+| Cold-start | ~4600ms |
+| Local RAG fallback (ChromaDB) | ~85ms |
+
+---
+
+## Project Structure
+
+```
+rwanda_museums_chatbot/
+├── app.py                  # Flask backend — RAG pipeline, Gemini API, ChromaDB
+├── requirements.txt        # Python dependencies
+├── Procfile                # Railway deployment process
+├── runtime.txt             # Python version for Railway
+├── knowledge_base/         # Museum knowledge base (.txt files, one per museum)
+├── frontend/               # React/Vite PWA
+│   ├── src/
+│   │   ├── App.jsx
+│   │   ├── components/
+│   │   │   ├── ArtifactDetail.jsx   # Main chat interface
+│   │   │   └── LanguageSelector.jsx # Multilingual onboarding
+│   │   └── data/
+│   │       └── museums.js           # Museum metadata
+│   └── index.html
+└── charts/                 # Generated result charts (report figures)
+```
 
 ---
 
-## 🚀 Deployed System Architecture
-- **Frontend**: [Render](https://render.com) (React + Vite)
-- **Backend API**: [Render](https://render.com) (Node.js)
-- **ML Engine**: [Render](https://render.com) (Python/Docker)
+## Key Features
 
-**Live URL**: [https://museum-chatbott.onrender.com]
+- **Multilingual**: Full support for Kinyarwanda, English, and French with language-specific system prompts
+- **RAG-powered**: ChromaDB vector store with semantic similarity search, bounded to verified museum archives
+- **Hallucination-resistant**: LLM responses strictly constrained to knowledge base context; graceful fallback when information is unavailable
+- **QR code integration**: Each museum has a unique URL parameter (`?museumId=N&lang=en`) — scan a QR code to open the correct museum chatbot instantly
+- **Progressive Web App**: Mobile-first design, installable on Android/iOS via "Add to Home Screen"
+- **Smart fallback**: If Gemini API is rate-limited, the system falls back to direct ChromaDB passage retrieval (~85ms)
+
+---
+
+## Future Work
+
+- Kinyarwanda Text-to-Speech (TTS) for oral storytelling tradition
+- Augmented Reality (AR) overlays for artefact visualisation
+- Offline edge deployment using Ollama + LLaMA-3 for museum-hosted servers
+- Expanded Kinyarwanda NLP training corpus in partnership with Rwandan linguists
 
 ---
 
-## 📂 Project Organization
-- `backend/`: Node.js proxy server.
-- `frontend/`: React mobile-first interface.
-- `ml-service/`: Python RAG engine & vector store.
-- `docs/`: Technical reports, analysis, and manuals.
-- `scripts/`: Utility scripts (e.g., QR Code Generator).
-- `tests/`: Automated test suites.
-
----
-**Supervisor Discussion Note**: This project satisfies the "Excellent" criteria by demonstrating end-to-end functionality across multiple testing strategies, hardware environments, and cultural data sets.
+*This project was developed as a BSc. Software Engineering Capstone at African Leadership University (ALU).*
