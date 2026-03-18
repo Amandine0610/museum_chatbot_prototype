@@ -1,35 +1,40 @@
 import React, { useState } from 'react';
 import translations from '../translations';
 
-const BROWN_DARK = '#5C3D1E';
-const BROWN_GOLD = '#8B6914';
-const CREAM = '#F5F0EA';
-
-const LanguageSelector = ({ onSelectLanguage }) => {
-    const [selected, setSelected] = useState('en');
-    const t = translations[selected];
+const LanguageSelector = ({ onSelectLanguage, museumId }) => {
+    const [selectedLang, setSelectedLang] = useState('en');
+    const t = translations[selectedLang] || translations.en;
 
     const languages = [
-        { code: 'en', name: 'English' },
-        { code: 'fr', name: 'Français' },
-        { code: 'rw', name: 'Kinyarwanda' },
+        { code: 'en', name: 'English',     flag: '🇬🇧' },
+        { code: 'fr', name: 'Français',    flag: '🇫🇷' },
+        { code: 'rw', name: 'Kinyarwanda', flag: '🇷🇼' },
     ];
+
+    const handleStart = () => {
+        // museumId comes from the QR code URL; default to 1 if somehow missing
+        onSelectLanguage(selectedLang, museumId || 1);
+    };
 
     return (
         <div className="phone-frame">
             <div className="phone-notch"></div>
-            <div className="phone-screen p-6 justify-center items-center">
-
-                {/* Main Content Card */}
+            <div className="phone-screen p-6 flex flex-col justify-center items-center">
                 <div className="premium-card w-full text-center">
-                    <h1 className="text-2xl font-bold mb-2 leading-tight">
+
+                    {/* Icon */}
+                    <div className="w-14 h-14 rounded-2xl bg-museum-brown-dark flex items-center justify-center text-2xl mx-auto mb-4 shadow-md">
+                        🏛️
+                    </div>
+
+                    <h1 className="text-[22px] font-bold mb-2 leading-tight text-museum-brown-dark">
                         {t.appTitle}
                     </h1>
-                    <p className="text-museum-brown-medium text-sm leading-relaxed mb-8">
+                    <p className="text-museum-brown-medium text-sm leading-relaxed mb-8 opacity-80">
                         {t.appSubtitle}
                     </p>
 
-                    <p className="text-museum-brown-dark text-sm font-semibold mb-4">
+                    <p className="text-museum-brown-dark text-xs font-semibold uppercase tracking-widest mb-4 opacity-60">
                         {t.selectLanguage}
                     </p>
 
@@ -37,33 +42,28 @@ const LanguageSelector = ({ onSelectLanguage }) => {
                         {languages.map((lang) => (
                             <button
                                 key={lang.code}
-                                onClick={() => setSelected(lang.code)}
-                                className={`w-full py-3.5 px-4 rounded-2xl border-2 transition-all duration-300 text-[15px] font-medium ${selected === lang.code
+                                onClick={() => setSelectedLang(lang.code)}
+                                className={`w-full py-3.5 px-5 rounded-2xl border-2 transition-all duration-300 text-[15px] font-medium flex items-center gap-3 ${
+                                    selectedLang === lang.code
                                         ? 'bg-museum-brown-medium border-museum-brown-medium text-white shadow-md scale-[1.02]'
                                         : 'bg-white border-museum-cream-dark text-museum-brown-dark hover:bg-museum-cream-light hover:border-museum-brown-light'
-                                    }`}
+                                }`}
                             >
-                                {lang.name}
+                                <span className="text-xl">{lang.flag}</span>
+                                <span>{lang.name}</span>
                             </button>
                         ))}
                     </div>
 
                     <button
-                        onClick={() => onSelectLanguage(selected)}
-                        className="museum-button-primary w-full text-base py-4 mb-6 shadow-[0_8px_20px_rgba(74,55,40,0.25)]"
+                        onClick={handleStart}
+                        className="museum-button-primary w-full text-base py-4 shadow-[0_8px_20px_rgba(74,55,40,0.25)]"
                     >
                         {t.start}
                     </button>
 
-                    {/* Pagination Indicator */}
-                    <div className="flex justify-center gap-2">
-                        <div className="w-2.5 h-2.5 rounded-full bg-museum-brown-medium"></div>
-                        <div className="w-2.5 h-2.5 rounded-full bg-museum-brown-light/40"></div>
-                        <div className="w-2.5 h-2.5 rounded-full bg-museum-brown-light/20"></div>
-                    </div>
                 </div>
             </div>
-            {/* Home bar */}
             <div className="w-16 h-1.5 bg-white/20 rounded-full mx-auto my-3"></div>
         </div>
     );

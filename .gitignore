@@ -20,6 +20,8 @@
 **/qr_codes/
 **/data_backups/
 live_query_results.txt
+flask_*.log
+*.log
 
 # OS
 .DS_Store

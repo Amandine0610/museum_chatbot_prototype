@@ -47,7 +47,10 @@ function App() {
             initialMuseumId={initialMuseumId}
         />
         : <LanguageSelector
-            onSelectLanguage={setLanguage}
+            onSelectLanguage={(lang, museumId) => {
+                setLanguage(lang);
+                if (museumId) setInitialMuseumId(museumId);
+            }}
             museumId={initialMuseumId}
         />;
 }
