@@ -11,12 +11,9 @@ import string
 import re
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-# HEAVY IMPORTS MOVED TO LAZY LOADERS BELOW
 
 app = Flask(__name__)
-# Hardened CORS for production
-from flask_cors import CORS
-CORS(app, resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # Instance Configuration
 INSTANCE_ID = ''.join(random.choices(string.ascii_uppercase + string.digits, k=6))
