@@ -373,7 +373,7 @@ CORE_FACTS = {
 # Persona Wrappers (Conversational Framing)
 PERSONA_WRAPPERS = {
     'rw': [
-        "Nshingiye ku manyandiko dufite hano mu Ngoro: {text} Hari ikindi nkwifuriza kumenya?",
+        "Nshingiye ku manyandiko dufite hano mu nzu ndangamurage: {text} Hari ikindi nkwifuriza kumenya?",
         "Nk'umurinzi w'aya mateka, dore icyo nakubwira: {text} Mbese ushaka kumenya n'ibindi?",
         "Urakoze ku kibazo cyawe. {text} Ndizera ko ibi bigufashije gusobanukirwa."
     ],
@@ -541,9 +541,10 @@ def get_core_fact(query, museum_id, language):
     if any(k in q_low for k in [
         "what to see", "what can i see", "exhibits", "collection", "gallery",
         "galleries", "display", "what is inside", "what does", "que voir",
-        "exposition", "galerie", "ibiri mu ngoro", "ibikomeye", "ibigaragazwa",
-        "highlights", "ni iki", "nshobora kubona", "ibiriho", "biragaragazwa",
-        "ibigori", "ibirori", "ibiterekwa", "ibibarizwa", "mu ngoro"
+        "exposition", "galerie", "ibiri mu ngoro", "ibiri mu nzu ndangamurage",
+        "ibikomeye", "ibigaragazwa", "highlights", "ni iki", "nshobora kubona",
+        "ibiriho", "biragaragazwa", "ibigori", "ibirori", "ibiterekwa",
+        "ibibarizwa", "mu ngoro", "mu nzu ndangamurage"
     ]):
         return lang_facts.get("exhibits") or lang_facts.get("highlights")
 
@@ -588,7 +589,9 @@ def get_core_fact(query, museum_id, language):
         "background", "information", "info", "amakuru", "ubuzima bw",
         "ni iki", "niki", "bwira", "mbwira", "sobanura", "ni gute",
         "yacu", "yashingwa", "yabaye", "yashingwe", "inzu ndangamurage",
-        "ingoro", "ingabo", "igenda bite", "ikora iki"
+        "iyi nzu ndangamurage", "nzu ndangamurage iyi", "iki ni iki",
+        "ingoro", "ingabo", "igenda bite", "ikora iki",
+        "sobanurira", "mbwire", "ibyo uzi", "ukubwira"
     ]):
         return lang_facts.get("history")
 
@@ -608,7 +611,7 @@ def smart_fallback(query, context, language, museum_name):
         'fr': (f"Je suis désolé, je n'ai pas d'informations spécifiques sur ce sujet pour {museum_name}. "
                f"N'hésitez pas à demander l'histoire, les horaires, les droits d'entrée, l'emplacement, les expositions, ou comment s'y rendre."),
         'rw': (f"Mbabarira, nta makuru arambuye mfite kuri icyo kibazo muri {museum_name}. "
-               f"Gerageza kubaza amateka, amasaha yo gufungurwa, kwinjira, aho iherereye, ibiri mu ngoro, cyangwa uburyo bwo kugera aho.")
+               f"Gerageza kubaza amateka, amasaha yo gufungurwa, kwinjira, aho iherereye, ibiri mu nzu ndangamurage, cyangwa uburyo bwo kugera aho.")
     }
     if not context:
         return no_info.get(language, no_info['en'])
@@ -685,7 +688,7 @@ def generate_response(query, context, language, museum_id, museum_name):
                    f"les horaires, les tarifs ou comment nous rejoindre."),
             'rw': (f"Muraho! Ndishimye kugutumirira muri {museum_name}. "
                    f"Ndi umurinzi w'amateka wawe. Nakubaza iki uyu munsi? "
-                   f"Ushobora kubaza amateka, ibiri mu ngoro, amasaha yo gufungurwa, "
+                   f"Ushobora kubaza amateka, ibiri mu nzu ndangamurage, amasaha yo gufungurwa, "
                    f"kwinjira, cyangwa uburyo bwo kugera aho."),
         }
         return greeting_replies.get(language, greeting_replies['en'])
@@ -723,7 +726,7 @@ def generate_response(query, context, language, museum_id, museum_name):
                    f"l'histoire et l'origine, les expositions, les horaires, "
                    f"les tarifs et comment y accéder. Que souhaitez-vous savoir ?"),
             'rw': (f"Yego, ndishimye kukufasha! Hari ibintu byinshi ushobora kumenya "
-                   f"kuri {museum_name}: amateka yayo, ibiri mu ngoro, amasaha yo gufungurwa, "
+                   f"kuri {museum_name}: amateka yayo, ibiri mu nzu ndangamurage, amasaha yo gufungurwa, "
                    f"kwinjira no kugera aho. Ni iki ushaka kumenya?"),
         }
         return yes_prompts.get(language, yes_prompts['en'])
