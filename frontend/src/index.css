@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #2C2C2C;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    html.dark body {
+        background-color: #0a0908;
+    }
+}
+
+@layer components {
+    .premium-card {
+        @apply rounded-3xl bg-white/90 p-6 border border-museum-cream-dark shadow-premium backdrop-blur-sm;
+    }
+
+    .dark .premium-card {
+        @apply bg-museum-night-elevated/95 border-museum-night-border shadow-[0_8px_32px_rgba(0,0,0,0.35)];
+    }
+
+    .museum-button-primary {
+        @apply rounded-2xl font-semibold text-white bg-museum-brown-dark hover:bg-museum-brown-medium transition-all active:scale-[0.99];
+    }
+
+    .dark .museum-button-primary {
+        @apply bg-museum-gold/90 text-museum-brown-dark hover:bg-museum-gold;
+    }
+}
+
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
+
+/* Phone frame — light */
+.phone-frame {
+    background: linear-gradient(145deg, #8B6914, #6B4F1A);
+    border-radius: 40px;
+    padding: 12px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.phone-screen {
+    background: #F5F0EA;
+    border-radius: 30px;
+    overflow: hidden;
+    position: relative;
+}
+
+.phone-bar {
+    width: 60px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    margin: 8px auto 0;
+}
+
+/* Phone frame — dark */
+.dark .phone-frame {
+    background: linear-gradient(145deg, #2c2419, #1a1510);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.dark .phone-screen {
+    background: #1a1816;
+}
+
+.dark .phone-bar {
+    background: rgba(255, 255, 255, 0.12);
+}

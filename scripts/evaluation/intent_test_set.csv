@@ -1,0 +1,31 @@
+query,language,museum_id,expected_route
+What are the opening hours?,en,1,hours
+Where is the museum located?,en,3,location
+Tell me about the KAMWE exhibition.,en,3,kamwe
+How much is the entrance fee?,en,1,admission
+How can I get there from Kigali?,en,2,transport
+Tell me about King Mutara III Rudahigwa.,en,1,rudahigwa
+What is Imigongo?,en,8,imigongo
+Who was Dr Richard Kandt?,en,5,kandt
+What is the name in Kinyarwanda for this museum?,en,8,museum_name
+What was the RPA campaign during the 100 days?,en,4,cnd
+Quels sont les horaires d'ouverture?,fr,1,hours
+Où se trouve le musée?,fr,3,location
+Parlez-moi de l'exposition Kamwe.,fr,3,kamwe
+Quel est le tarif d'entrée?,fr,1,admission
+Comment aller depuis Kigali?,fr,2,transport
+Qui était le roi Mutara III Rudahigwa?,fr,1,rudahigwa
+Qu'est-ce que l'Imigongo?,fr,8,imigongo
+Qui était Richard Kandt?,fr,5,kandt
+Comment s'appelle ce musée en anglais?,fr,8,museum_name
+Que s'est-il passé au CND pendant les cent jours?,fr,4,cnd
+Ni ryari ifungurwa?,rw,1,hours
+Iherereye he inzu ndangamurage?,rw,3,location
+Sobanura Kamwe muri iki cyiciro.,rw,3,kamwe
+Amafaranga yo kwinjira ni angahe?,rw,1,admission
+Uko nshobora kugera i Huye uvuye i Kigali?,rw,2,transport
+Mutara III Rudahigwa yari uwande?,rw,1,rudahigwa
+Imigongo ni iki?,rw,8,imigongo
+Richard Kandt yari uwande?,rw,5,kandt
+Ni izina ry'iyi nzu muri icyongereza ryande?,rw,8,museum_name
+Ni iki cyabaye ku CND mu minsi 100?,rw,4,cnd

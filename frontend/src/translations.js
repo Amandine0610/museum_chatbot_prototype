@@ -1,0 +1,62 @@
+// Translations for the Museum Chatbot UI
+const translations = {
+    en: {
+        appTitle: 'Rwanda Museums Interactive Guide',
+        appSubtitle: 'Discover the rich cultural heritage of Rwanda through interactive storytelling and digital guidance',
+        selectLanguage: 'Select your preferred language',
+        start: 'Start',
+        back: 'Back',
+        home: 'Home',
+        next: 'Next',
+        askQuestions: 'Ask Questions',
+        hideChat: 'Hide Chat',
+        askAboutArtefact: 'Ask About This Artefact',
+        chatPlaceholder: 'Ask about this artefact...',
+        chatPrompt: 'Start a conversation! Ask me anything about this artefact.',
+        source: 'Source',
+        typing: 'Typing…',
+        welcomeMsg: (museum) =>
+            `Welcome to the ${museum}! I'm here to assist and guide you through this tour. Ask me questions about the artefacts you're seeing, or what you want to know more about in this specific museum.`,
+        connectionError: 'Connection error. Please try again.',
+    },
+    fr: {
+        appTitle: 'Guide Interactif du Musées du Rwanda',
+        appSubtitle: 'Découvrez le riche patrimoine culturel du Rwanda grâce à la narration interactive et aux conseils numériques',
+        selectLanguage: 'Choisissez votre langue préférée',
+        start: 'Commencer',
+        back: 'Retour',
+        home: 'Accueil',
+        next: 'Suivant',
+        askQuestions: 'Poser des questions',
+        hideChat: 'Masquer le chat',
+        askAboutArtefact: 'Poser une question',
+        chatPlaceholder: 'Posez une question sur ces artefacts...',
+        chatPrompt: 'Commencez une conversation ! Posez-moi des questions sur les artefacts de ce musée.',
+        source: 'Source',
+        typing: 'En train de taper…',
+        welcomeMsg: (museum) =>
+            `Bienvenue au ${museum} ! Je suis là pour vous guider tout au long de cette visite. Posez-moi des questions sur les artefacts que vous voyez, ou sur l'histoire de ce musée.`,
+        connectionError: 'Erreur de connexion. Veuillez réessayer.',
+    },
+    rw: {
+        appTitle: 'Inzu ndangamurage z\'u Rwanda',
+        appSubtitle: 'Menya umurage w\'umuco w\'u Rwanda binyuze mu makuru aziguye no kuganira n\'ikoranabuhanga',
+        selectLanguage: 'Hitamo ururimi ushaka',
+        start: 'Tangira',
+        back: 'Subira',
+        home: 'Ahabanza',
+        next: 'Komeza',
+        askQuestions: 'Baza ibibazo',
+        hideChat: 'Hisha ibiganiro',
+        askAboutArtefact: 'Baza ibyerekeye iki gikoresho',
+        chatPlaceholder: 'Baza ikibazo ku bikoresho ndangamuco...',
+        chatPrompt: 'Tangira ibiganiro! Baza ibibazo byose bijyanye n\'ibihangano cg ibikoresho ndangamuco ubona hano.',
+        source: 'Inkomoko',
+        typing: 'Arimo andika…',
+        welcomeMsg: (museum) =>
+            `Murakaza neza muri ${museum}! Ndi umuyobozi wanyu mu buryo bw'ikoranabuhanga, niteguye kubasangiza amateka n'umurage biri muri izi nkuta. Ni iki mwasubiramo mbere? Mushobora kumbaza ibyerekeye ibikoresho ndangamuco byihariye cyangwa amateka y'iyi nzu ndangamurage.`,
+        connectionError: 'Ikosa ryo gutumanaho. Gerageza nanone.',
+    },
+};
+
+export default translations;
